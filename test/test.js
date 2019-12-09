@@ -1,7 +1,7 @@
 var assert = require('assert');
 var fs = require('fs');
 var mq = require('..');
-var parse = require('css-parse');
+var parse = require('css').parse;
 
 var INPUT_FILE = 'test/fixtures/input.css';
 
@@ -15,7 +15,7 @@ describe('Siphon Media Query', function() {
       inputTree = parse(input);
       done();
     })
-  })
+  });
 
   it('extracts CSS from all media queries', function(done) {
     var output = parse(mq(input));

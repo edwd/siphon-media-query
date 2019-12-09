@@ -1,32 +1,30 @@
 'use strict';
 
-var parse = require('css-parse');
-var stringify = require('css-stringify');
+var parse = require('css').parse;
+var stringify = require('css').stringify;
 
 /**
  * Parses a string of CSS, returning only CSS inside of media queries.
  * @param {string} input - CSS to parse.
- * @param {string} query [] - Specific media query to extract. If ommitted, all media query CSS will be extracted.
+ * @param {string} [query] - Specific media query to extract. If omitted, all media query CSS will be extracted.
  * @returns {string} Matching CSS.
  */
 module.exports = function(input, query) {
-  var output = [];
-  var rules = parse(input).stylesheet.rules;
-  var all = query ? false : true;
+  let output = [];
+  const rules = parse(input).stylesheet.rules;
+  const all = !query;
 
-  // Iterate through every rule found in the CSS
-  for (var i in rules) {
-    var rule = rules[i];
-
-    // Only add the rule to the list if it's a @media rule, and if it's the matching rule. Or, add it if no specific media query was specified
+  // Iterate over through array of all rules found in the CSS
+  for (let rule of rules) {
+    // Add CSS rules to the final list if it's an @media rule. If a media query was specified, only include the @media rules which match the media query (otherwise, include all @media rules).
     if (rule.type === 'media' && (rule.media === query || all)) {
       output.push(rule);
     }
   }
 
-  // Turn the CSS rule tree back into a proper stylesheet
+  // Turn the final list of CSS rules back into a stylesheet
   return stringify({
     type: 'stylesheet',
     stylesheet: { rules: output }
   });
-}
+};

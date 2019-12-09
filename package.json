@@ -22,10 +22,9 @@
   },
   "homepage": "https://github.com/zurb/siphon-media-query#readme",
   "devDependencies": {
-    "mocha": "^2.4.5"
+    "mocha": "^6.2.2"
   },
   "dependencies": {
-    "css-parse": "^2.0.0",
-    "css-stringify": "^2.0.0"
+    "css": "^2.2.4"
   }
 }
